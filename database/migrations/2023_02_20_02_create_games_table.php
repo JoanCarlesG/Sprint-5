@@ -22,8 +22,8 @@ return new class extends Migration
             $table->enum('player2_throw2', ['1', '2', '3', '4', '5', '6']);
             $table->enum('win', ['0', '1', '2']);
             
-            $table->foreign('player1_id')->references(['id'])->on('players')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('player2_id')->references(['id'])->on('players')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('player1_id')->references(['id'])->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('player2_id')->references(['id'])->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
 
         });
     }

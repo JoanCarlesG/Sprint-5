@@ -10,9 +10,19 @@ use Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function getPlayers()
+{
+    $players = User::withCount(['games', 'wins'])->get();
+    
+    $players = $players->map(function($player) {
+        $player->victory_percentage = $player->games_count > 0 ? round($player->wins_count / $player->games_count * 100, 2) : 0;
+        return $player;
+    });
+    
+    return response()->json($players);
+}
+
+
     public function loginUser(Request $request): Response
     {
         $input = $request->all();
@@ -32,6 +42,16 @@ class UserController extends Controller
         if (Auth::guard('api')->check()) {
             $user = Auth::guard('api')->user();
             return Response(['status' => 200, 'user' => $user], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function getAllUsers(): Response
+    {
+        if (Auth::guard('api')->check()) {
+            $users = Auth::guard('api')->all();
+            return Response(['status' => 200, 'users' => $users], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
