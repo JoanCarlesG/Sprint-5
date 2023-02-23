@@ -26,7 +26,11 @@ class UserController extends Controller
     {
         $user = new User();
         $input = $request->all();
-        if ($user->fill($input)->save()) {
+        if ($input) {
+            $user->name = $input['name'];
+            $user->email = $input['email'];
+            $user->password = bcrypt($input['password']);
+            $user->save();
             return Response(['status' => 200, 'message' => 'Successfully registered'], 200);
         } else {
             return Response(['status' => 400, 'message' => 'Failed to register'], 400);
@@ -40,11 +44,15 @@ class UserController extends Controller
         Auth::attempt($input);
 
         $user = Auth::user();
+        
         $token = $user->createToken('example ')->accessToken;
+        dd($token);
         return Response(['status' => 200, 'token' => $token], 200);
     }
 
     /**
+     * LogicException: Unable to read key from file file:///Users/juancarlosgodinez/Desktop/Laravel-Workspace/Sprint-5/storage/oauth-private.key in file /Users/juancarlosgodinez/Desktop/Laravel-Workspace/Sprint-5/vendor/league/oauth2-server/src/CryptKey.php on line 67
+
      * Store a newly created resource in storage.
      */
     public function getUserDetail(): Response
