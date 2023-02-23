@@ -40,6 +40,10 @@ Route::controller(UserController::class)->group(function () {
 })->name('login');
 
 Route::controller(UserController::class)->group(function () {
+    Route::post('/players', 'registerUser');
+})->name('register');
+
+Route::controller(UserController::class)->group(function () {
     Route::get('/user', 'getUserDetail');
     Route::get('/logout', 'userLogout');
 })->middleware('auth:api');

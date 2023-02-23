@@ -11,17 +11,27 @@ use Auth;
 class UserController extends Controller
 {
     public function getPlayers()
-{
-    $players = User::withCount(['games', 'wins'])->get();
-    
-    $players = $players->map(function($player) {
-        $player->victory_percentage = $player->games_count > 0 ? round($player->wins_count / $player->games_count * 100, 2) : 0;
-        return $player;
-    });
-    
-    return response()->json($players);
-}
+    {
+        $players = User::withCount(['games', 'wins'])->get();
 
+        $players = $players->map(function ($player) {
+            $player->victory_percentage = $player->games_count > 0 ? round($player->wins_count / $player->games_count * 100, 2) : 0;
+            return $player;
+        });
+
+        return response()->json($players);
+    }
+
+    public function registerUser(Request $request): Response
+    {
+        $user = new User();
+        $input = $request->all();
+        if ($user->fill($input)->save()) {
+            return Response(['status' => 200, 'message' => 'Successfully registered'], 200);
+        } else {
+            return Response(['status' => 400, 'message' => 'Failed to register'], 400);
+        }
+    }
 
     public function loginUser(Request $request): Response
     {
@@ -65,15 +75,14 @@ class UserController extends Controller
         if (Auth::guard('api')->check()) {
             $accessToken = Auth::guard('api')->user()->token();
             \DB::table('oauth_refresh_tokens')
-            ->where('access_token_id', $accessToken->id)
-            ->update([
-                'revoked' => true
-            ]);
+                ->where('access_token_id', $accessToken->id)
+                ->update([
+                    'revoked' => true
+                ]);
             $accessToken->revoke();
             return Response(['status' => 200, 'message' => 'Successfully logged out'], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
-       
     }
 }
