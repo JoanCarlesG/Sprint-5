@@ -12,14 +12,10 @@ class UserController extends Controller
 {
     public function getPlayers()
     {
-        $players = User::withCount(['games', 'wins'])->get();
-
-        $players = $players->map(function ($player) {
-            $player->victory_percentage = $player->games_count > 0 ? round($player->wins_count / $player->games_count * 100, 2) : 0;
-            return $player;
+        $users = User::all()->map(function ($user) {
+            return $user->toArrayWithWinRate();
         });
-
-        return response()->json($players);
+        return response()->json($users);
     }
 
     public function registerUser(Request $request): Response
@@ -31,7 +27,7 @@ class UserController extends Controller
             $user->email = $input['email'];
             $user->password = bcrypt($input['password']);
             $user->save();
-            return Response(['status' => 200, 'message' => 'Successfully registered'], 200);
+            return Response(['status' => 201, 'message' => 'Successfully registered', 'data' => $user], 201);
         } else {
             return Response(['status' => 400, 'message' => 'Failed to register'], 400);
         }
@@ -44,17 +40,11 @@ class UserController extends Controller
         Auth::attempt($input);
 
         $user = Auth::user();
-        
+
         $token = $user->createToken('example ')->accessToken;
-        dd($token);
-        return Response(['status' => 200, 'token' => $token], 200);
+        return Response(['status' => 200, 'token' => $token, 'message' => 'Login successfull'], 200);
     }
 
-    /**
-     * LogicException: Unable to read key from file file:///Users/juancarlosgodinez/Desktop/Laravel-Workspace/Sprint-5/storage/oauth-private.key in file /Users/juancarlosgodinez/Desktop/Laravel-Workspace/Sprint-5/vendor/league/oauth2-server/src/CryptKey.php on line 67
-
-     * Store a newly created resource in storage.
-     */
     public function getUserDetail(): Response
     {
         if (Auth::guard('api')->check()) {
@@ -65,19 +55,6 @@ class UserController extends Controller
         }
     }
 
-    public function getAllUsers(): Response
-    {
-        if (Auth::guard('api')->check()) {
-            $users = Auth::guard('api')->all();
-            return Response(['status' => 200, 'users' => $users], 200);
-        } else {
-            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function userLogout(): Response
     {
         if (Auth::guard('api')->check()) {
@@ -89,6 +66,36 @@ class UserController extends Controller
                 ]);
             $accessToken->revoke();
             return Response(['status' => 200, 'message' => 'Successfully logged out'], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function updateName(Request $request): Response
+    {
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+            $user->name = $request->name;
+            $user->save();
+            return Response(['status' => 200, 'message' => 'Successfully updated'], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function getUserGames($id): Response
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return Response(['status' => 404, 'message' => 'User not found'], 404);
+        }
+
+        if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
+            $userGames = $user->games;
+            if (empty($userGames))
+            // NO DATA
+            return Response(['status' => 200, 'userGames' => $userGames], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }

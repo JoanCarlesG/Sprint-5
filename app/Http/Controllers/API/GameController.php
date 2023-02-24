@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Games;
+use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class GamesController extends Controller
+class GameController extends Controller
 {
     
 }
