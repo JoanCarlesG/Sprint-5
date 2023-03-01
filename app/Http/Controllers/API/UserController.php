@@ -45,16 +45,6 @@ class UserController extends Controller
         return Response(['status' => 200, 'token' => $token, 'message' => 'Login successfull'], 200);
     }
 
-    public function getUserDetail(): Response
-    {
-        if (Auth::guard('api')->check()) {
-            $user = Auth::guard('api')->user();
-            return Response(['status' => 200, 'user' => $user], 200);
-        } else {
-            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
-        }
-    }
-
     public function userLogout(): Response
     {
         if (Auth::guard('api')->check()) {
@@ -93,11 +83,48 @@ class UserController extends Controller
 
         if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
             $userGames = $user->games;
-            if (empty($userGames))
-            // NO DATA
-            return Response(['status' => 200, 'userGames' => $userGames], 200);
+            return Response(['status' => 200, 'Total games' => count($userGames), 'games' => $userGames], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
     }
+
+    public function createGame($id, Request $request): Response
+    {
+        $user = User::find($id);
+    
+        if (!$user) {
+            return Response(['status' => 404, 'message' => 'User not found'], 404);
+        }
+    
+        if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
+            User::newGame($user);
+            $game = $user->games->last();
+            if ($game->win == 2){
+                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU LOSE!'], 201);
+            } else{
+                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU WIN!'], 201);
+            }
+            
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function deleteGames($id): Response
+    {
+        $user = User::find($id);
+    
+        if (!$user) {
+            return Response(['status' => 404, 'message' => 'User not found'], 404);
+        }
+    
+        if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
+            User::deleteGames($user);
+            return Response(['status' => 200, 'message' => 'Games Successfully deleted'], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
 }

@@ -14,17 +14,12 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('player1_id');
-            $table->unsignedBigInteger('player2_id');
-            $table->enum('player1_throw1', ['1', '2', '3', '4', '5', '6']);
-            $table->enum('player1_throw2', ['1', '2', '3', '4', '5', '6']);
-            $table->enum('player2_throw1', ['1', '2', '3', '4', '5', '6']);
-            $table->enum('player2_throw2', ['1', '2', '3', '4', '5', '6']);
-            $table->enum('win', ['0', '1', '2']);
+            $table->unsignedBigInteger('player_id');
+            $table->enum('throw1', ['1', '2', '3', '4', '5', '6'])->nullable();
+            $table->enum('throw2', ['1', '2', '3', '4', '5', '6'])->nullable();
+            $table->enum('win', ['1', '2'])->nullable();
             
-            $table->foreign('player1_id')->references(['id'])->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('player2_id')->references(['id'])->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
-
+            $table->foreign('player_id')->references(['id'])->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

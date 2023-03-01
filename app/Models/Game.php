@@ -10,17 +10,14 @@ class Game extends Model
     use HasFactory;
 
     protected $fillable = [
-        'player1_id',
-        'player2_id',
-        'player1_throw1',
-        'player1_throw2',
-        'player2_throw1',
-        'player2_throw2',
+        'player_id',
+        'throw1',
+        'throw2',
         'win'
     ];
 
-    public function players()
+    public function player()
     {
-        return $this->belongsToMany(Player::class);
+        return $this->belongsTo(Player::class);
     }
 }

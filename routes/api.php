@@ -23,12 +23,6 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/login', 'loginUser');
 })->name('login');
 
-Route::controller(UserController::class)->group(function () {
-    Route::get('/user', 'getUserDetail');
-    Route::get('/logout', 'userLogout');
-})->middleware('auth:api');
-
-
 //GET /players: retorna el llistat de tots els jugadors/es del sistema amb el seu percentatge mitjà d’èxits 
 Route::controller(UserController::class)->group(function () {
     Route::get('/players', 'getPlayers');
@@ -50,10 +44,14 @@ Route::controller(UserController::class)->group(function () {
 })->middleware('auth:api');
 
 //POST /players/{id}/games/ : un jugador/a específic realitza una tirada dels daus.
-
+Route::controller(UserController::class)->group(function () {
+    Route::post('/players/{id}/games/', 'createGame');
+})->middleware('auth:api');
 
 //DELETE /players/{id}/games: elimina les tirades del jugador/a.
-    
+Route::controller(UserController::class)->group(function () {
+    Route::delete('/players/{id}/games', 'deleteGames');
+})->middleware('auth:api');   
 
 //GET /players/ranking: retorna el rànquing mitjà de tots els jugadors/es del sistema. És a dir, el percentatge mitjà d’èxits.
 
