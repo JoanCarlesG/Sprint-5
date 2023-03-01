@@ -92,20 +92,19 @@ class UserController extends Controller
     public function createGame($id, Request $request): Response
     {
         $user = User::find($id);
-    
+
         if (!$user) {
             return Response(['status' => 404, 'message' => 'User not found'], 404);
         }
-    
+
         if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
             User::newGame($user);
             $game = $user->games->last();
-            if ($game->win == 2){
+            if ($game->win == 2) {
                 return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU LOSE!'], 201);
-            } else{
+            } else {
                 return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU WIN!'], 201);
             }
-            
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
@@ -114,11 +113,11 @@ class UserController extends Controller
     public function deleteGames($id): Response
     {
         $user = User::find($id);
-    
+
         if (!$user) {
             return Response(['status' => 404, 'message' => 'User not found'], 404);
         }
-    
+
         if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
             User::deleteGames($user);
             return Response(['status' => 200, 'message' => 'Games Successfully deleted'], 200);
@@ -127,4 +126,32 @@ class UserController extends Controller
         }
     }
 
+    public function createRanking()
+    {
+        $users = User::all()->map(function ($user) {
+            return [
+                'name' => $user->name,
+                'win_rate' => $user->winRate(),
+            ];
+        })->sortByDesc('win_rate')->values()->toArray();
+        return $users;
+    }
+
+    public function getRanking(): Response
+    {
+        $users = $this->createRanking();
+        return Response(['status' => 200, 'data' => $users], 200);
+    }
+
+    public function getWorstPlayer(): Response
+    {
+        $users = $this->createRanking();
+        return Response(['status' => 200, 'data' => end($users)], 200);
+    }
+
+    public function getBestPlayer(): Response
+    {
+        $users = $this->createRanking();
+        return Response(['status' => 200, 'data' => $users[0]], 200);
+    }
 }

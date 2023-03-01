@@ -54,9 +54,16 @@ Route::controller(UserController::class)->group(function () {
 })->middleware('auth:api');   
 
 //GET /players/ranking: retorna el rànquing mitjà de tots els jugadors/es del sistema. És a dir, el percentatge mitjà d’èxits.
-
+Route::controller(UserController::class)->group(function () {
+    Route::get('/players/ranking', 'getRanking');
+})->middleware('auth:api');  
 
 //GET /players/ranking/loser: retorna el jugador/a amb pitjor percentatge d’èxit.
-
+Route::controller(UserController::class)->group(function () {
+    Route::get('/players/ranking/loser', 'getWorstPlayer');
+})->middleware('auth:api'); 
 
 //GET /players/ranking/winner: retorna el jugador/a amb millor percentatge d’èxit.
+Route::controller(UserController::class)->group(function () {
+    Route::get('/players/ranking/winner', 'getBestPlayer');
+})->middleware('auth:api'); 
