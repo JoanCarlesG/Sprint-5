@@ -31,6 +31,12 @@ class UserController extends Controller
         } else {
             return Response(['status' => 400, 'message' => 'Failed to register'], 400);
         }
+
+        if ($user->id == 1) {
+            $user->assignRole('Admin');
+        } else {
+            $user->assignRole('User');
+        }
     }
 
     public function loginUser(Request $request): Response
