@@ -11,17 +11,27 @@ use Auth;
 class UserController extends Controller
 {
     public function getPlayers()
-{
-    $players = User::withCount(['games', 'wins'])->get();
-    
-    $players = $players->map(function($player) {
-        $player->victory_percentage = $player->games_count > 0 ? round($player->wins_count / $player->games_count * 100, 2) : 0;
-        return $player;
-    });
-    
-    return response()->json($players);
-}
+    {
+        $users = User::all()->map(function ($user) {
+            return $user->toArrayWithWinRate();
+        });
+        return response()->json($users);
+    }
 
+    public function registerUser(Request $request): Response
+    {
+        $user = new User();
+        $input = $request->all();
+        if ($input) {
+            $user->name = $input['name'];
+            $user->email = $input['email'];
+            $user->password = bcrypt($input['password']);
+            $user->save();
+            return Response(['status' => 201, 'message' => 'Successfully registered', 'data' => $user], 201);
+        } else {
+            return Response(['status' => 400, 'message' => 'Failed to register'], 400);
+        }
+    }
 
     public function loginUser(Request $request): Response
     {
@@ -30,50 +40,118 @@ class UserController extends Controller
         Auth::attempt($input);
 
         $user = Auth::user();
+
         $token = $user->createToken('example ')->accessToken;
-        return Response(['status' => 200, 'token' => $token], 200);
+        return Response(['status' => 200, 'token' => $token, 'message' => 'Login successfull'], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function getUserDetail(): Response
-    {
-        if (Auth::guard('api')->check()) {
-            $user = Auth::guard('api')->user();
-            return Response(['status' => 200, 'user' => $user], 200);
-        } else {
-            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
-        }
-    }
-
-    public function getAllUsers(): Response
-    {
-        if (Auth::guard('api')->check()) {
-            $users = Auth::guard('api')->all();
-            return Response(['status' => 200, 'users' => $users], 200);
-        } else {
-            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function userLogout(): Response
     {
         if (Auth::guard('api')->check()) {
             $accessToken = Auth::guard('api')->user()->token();
             \DB::table('oauth_refresh_tokens')
-            ->where('access_token_id', $accessToken->id)
-            ->update([
-                'revoked' => true
-            ]);
+                ->where('access_token_id', $accessToken->id)
+                ->update([
+                    'revoked' => true
+                ]);
             $accessToken->revoke();
             return Response(['status' => 200, 'message' => 'Successfully logged out'], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
-       
+    }
+
+    public function updateName(Request $request): Response
+    {
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+            $user->name = $request->name;
+            $user->save();
+            return Response(['status' => 200, 'message' => 'Successfully updated'], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function getUserGames($id): Response
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return Response(['status' => 404, 'message' => 'User not found'], 404);
+        }
+
+        if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
+            $userGames = $user->games;
+            return Response(['status' => 200, 'Total games' => count($userGames), 'games' => $userGames], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function createGame($id, Request $request): Response
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return Response(['status' => 404, 'message' => 'User not found'], 404);
+        }
+
+        if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
+            User::newGame($user);
+            $game = $user->games->last();
+            if ($game->win == 2) {
+                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU LOSE!'], 201);
+            } else {
+                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU WIN!'], 201);
+            }
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function deleteGames($id): Response
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return Response(['status' => 404, 'message' => 'User not found'], 404);
+        }
+
+        if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
+            User::deleteGames($user);
+            return Response(['status' => 200, 'message' => 'Games Successfully deleted'], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function createRanking()
+    {
+        $users = User::all()->map(function ($user) {
+            return [
+                'name' => $user->name,
+                'win_rate' => $user->winRate(),
+            ];
+        })->sortByDesc('win_rate')->values()->toArray();
+        return $users;
+    }
+
+    public function getRanking(): Response
+    {
+        $users = $this->createRanking();
+        return Response(['status' => 200, 'data' => $users], 200);
+    }
+
+    public function getWorstPlayer(): Response
+    {
+        $users = $this->createRanking();
+        return Response(['status' => 200, 'data' => end($users)], 200);
+    }
+
+    public function getBestPlayer(): Response
+    {
+        $users = $this->createRanking();
+        return Response(['status' => 200, 'data' => $users[0]], 200);
     }
 }
