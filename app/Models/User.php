@@ -68,7 +68,8 @@ class User extends Authenticatable
             'email' => $this->email,
             'win_rate' => $this->winRate(),
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+            'role' => $this->getRoleNames(),
         ];
     }
 

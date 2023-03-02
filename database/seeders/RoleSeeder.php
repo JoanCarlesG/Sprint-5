@@ -18,15 +18,12 @@ class RoleSeeder extends Seeder
     {
         $role1 = Role::create([
             'name' => 'Admin',
-            'guard_name' => 'api'
         ]);
         $role2 = Role::create([
             'name' => 'Player',
-            'guard_name' => 'api'
         ]);
         
         Permission::create(['name' => 'user.getPlayers'])->assignRole($role1);
-
         Permission::create(['name' => 'user.getRanking'])->assignRole($role1);
         Permission::create(['name' => 'user.getWorstPlayer'])->assignRole($role1);
         Permission::create(['name' => 'user.getBestPlayer'])->assignRole($role1);
