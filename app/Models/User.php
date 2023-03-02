@@ -41,6 +41,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function role()
+    {
+        return $this->hasOne(Role::class);
+    }
     public function games()
     {
         return $this->hasMany(Game::class, 'player_id');
