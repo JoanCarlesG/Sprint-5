@@ -24,7 +24,6 @@ class GetPlayersTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
         ])->get('/api/players');
-        //$response->ddHeaders();
         
         $response->assertStatus(200);
     }
