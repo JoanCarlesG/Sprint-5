@@ -11,6 +11,6 @@ class GetBestPlayerTest extends TestCase
      */
     public function best_player_can_be_retrieved(): void
     {
-        $this->assertTrue(true);
+       
     }
 }

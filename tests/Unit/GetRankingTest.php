@@ -11,6 +11,6 @@ class GetRankingTest extends TestCase
      */
     public function ranking_can_be_retrieved(): void
     {
-        $this->assertTrue(true);
+        
     }
 }

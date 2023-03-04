@@ -11,6 +11,6 @@ class NewGameTest extends TestCase
      */
     public function game_can_be_created(): void
     {
-        $this->assertTrue(true);
+        
     }
 }

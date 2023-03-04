@@ -11,6 +11,6 @@ class GetWorstPlayerTest extends TestCase
      */
     public function worst_player_can_be_retrieved(): void
     {
-        $this->assertTrue(true);
+       
     }
 }

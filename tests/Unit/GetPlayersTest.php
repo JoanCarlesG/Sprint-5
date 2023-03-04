@@ -11,6 +11,6 @@ class GetPlayersTest extends TestCase
      */
     public function players_can_be_retrieved(): void
     {
-        $this->assertTrue(true);
+        
     }
 }

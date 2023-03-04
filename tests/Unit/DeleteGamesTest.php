@@ -11,6 +11,6 @@ class DeleteGamesTest extends TestCase
      */
     public function games_can_be_deleted(): void
     {
-        $this->assertTrue(true);
+       
     }
 }
