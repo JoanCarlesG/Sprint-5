@@ -15,13 +15,15 @@ class UpdatePlayerNameTest extends TestCase
     public function name_can_be_updated(): void
     {
         $user = User::factory()->create();
+        
         $token = $user->createToken('example ')->accessToken;
-
+        
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
         ])->put('/api/players/' . $user->id, [
-            'name' => 'New Name',
+            'name' => uniqid(),
         ]);
+        
         $this->assertEquals(200, $response->getStatusCode());
         
     }

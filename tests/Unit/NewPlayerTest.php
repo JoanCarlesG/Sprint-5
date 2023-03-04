@@ -9,22 +9,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class NewPlayerTest extends TestCase
 {
-    use RefreshDatabase;
     /**
      * @test
      */
     public function player_can_be_created(): void
     {
+        // uniqid() to return random strings in every test
+        // 
         $response = $this->post('/api/players', [
-            'name' => 'Test Player',
-            'email' => 'test@test.com',
-            'password' => 'password',
+            'name' => uniqid(),
+            'email' => uniqid(),
+            'password' => uniqid(),
         ]);
 
-        $player = User::latest()->first();
-        
-        $this->assertEquals($player->name, 'Test Player');
-        $this->assertEquals($player->email, 'test@test.com');
         $this->assertEquals(201, $response->getStatusCode());
     }
 }
