@@ -21,7 +21,7 @@ class NewPlayerTest extends TestCase
             'password' => 'password',
         ]);
 
-        $player = User::first();
+        $player = User::latest()->first();
         
         $this->assertEquals($player->name, 'Test Player');
         $this->assertEquals($player->email, 'test@test.com');
