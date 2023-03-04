@@ -12,10 +12,14 @@ class UserController extends Controller
 {
     public function getPlayers()
     {
-        $users = User::all()->map(function ($user) {
-            return $user->toArrayWithWinRate();
-        });
-        return response()->json($users);
+        if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
+            $users = User::all()->map(function ($user) {
+                return $user->toArrayWithWinRate();
+            });
+            return response()->json($users);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
     }
 
     public function registerUser(Request $request): Response
@@ -30,6 +34,12 @@ class UserController extends Controller
             return Response(['status' => 201, 'message' => 'Successfully registered', 'data' => $user], 201);
         } else {
             return Response(['status' => 400, 'message' => 'Failed to register'], 400);
+        }
+
+        if ($user->id == 1) {
+            $user->assignRole('Admin');
+        } else {
+            $user->assignRole('User');
         }
     }
 
@@ -89,7 +99,7 @@ class UserController extends Controller
         }
     }
 
-    public function createGame($id, Request $request): Response
+    public function createGame($id): Response
     {
         $user = User::find($id);
 
@@ -139,19 +149,31 @@ class UserController extends Controller
 
     public function getRanking(): Response
     {
-        $users = $this->createRanking();
-        return Response(['status' => 200, 'data' => $users], 200);
+        if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
+            $users = $this->createRanking();
+            return Response(['status' => 200, 'data' => $users], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
     }
 
     public function getWorstPlayer(): Response
     {
-        $users = $this->createRanking();
-        return Response(['status' => 200, 'data' => end($users)], 200);
+        if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
+            $users = $this->createRanking();
+            return Response(['status' => 200, 'data' => end($users)], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
     }
 
     public function getBestPlayer(): Response
     {
-        $users = $this->createRanking();
-        return Response(['status' => 200, 'data' => $users[0]], 200);
+        if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
+            $users = $this->createRanking();
+            return Response(['status' => 200, 'data' => $users[0]], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
+        }
     }
 }
