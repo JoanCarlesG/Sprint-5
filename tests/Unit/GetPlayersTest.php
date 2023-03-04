@@ -4,12 +4,12 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
-class ExampleTest extends TestCase
+class GetPlayersTest extends TestCase
 {
     /**
-     * A basic test example.
+     * A basic unit test example.
      */
-    public function test_that_true_is_true(): void
+    public function players_can_be_retrieved(): void
     {
         $this->assertTrue(true);
     }
