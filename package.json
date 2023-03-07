@@ -11,8 +11,10 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "vite-plugin-vue-images": "^0.6.1",
         "vue": "^3.2.47",
         "vue-axios": "^3.5.2",
-        "vue-router": "^4.1.6"
+        "vue-router": "^4.1.6",
+        "vuex": "^4.1.0"
     }
 }

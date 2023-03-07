@@ -47,12 +47,13 @@ class UserController extends Controller
     {
         $input = $request->all();
 
-        Auth::attempt($input);
-
-        $user = Auth::user();
-
-        $token = $user->createToken('example ')->accessToken;
-        return Response(['status' => 200, 'token' => $token, 'message' => 'Login successfull'], 200);
+        if (Auth::attempt($input)) {
+            $user = Auth::user();
+            $token = $user->createToken('example')->accessToken;
+            return Response(['status' => 200, 'token' => $token, 'message' => 'Login successful'], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Invalid credentials'], 401);
+        }
     }
 
     public function userLogout(): Response
@@ -93,7 +94,7 @@ class UserController extends Controller
 
         if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
             $userGames = $user->games;
-            return Response(['status' => 200, 'Total games' => count($userGames), 'games' => $userGames], 200);
+            return Response(['status' => 200, 'Total games' => count($userGames), 'games' => $userGames], 200)->json($userGames);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
@@ -151,7 +152,7 @@ class UserController extends Controller
     {
         if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
             $users = $this->createRanking();
-            return Response(['status' => 200, 'data' => $users], 200);
+            return Response(['status' => 200, 'data' => $users], 200)->json($users);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }

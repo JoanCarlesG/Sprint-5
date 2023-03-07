@@ -34,5 +34,5 @@ Route::get('/', function () {
 });
 
 Route::get('/{all}', function () {
-    return view('index');
+    return view('welcome');
 })->where("all", ".*");

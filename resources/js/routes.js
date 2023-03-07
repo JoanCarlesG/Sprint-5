@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory } from "vue-router";
 //Import VUE files in js folder
-const Home = () => import('../src/Home.vue');
 const Ranking = () => import('../src/Ranking.vue');
 
 //import components for users and games
@@ -15,6 +14,11 @@ const routes = [
         path: '/',
         name: 'login',
         component: Login
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: Register
     },
     {
         path: '/ranking',

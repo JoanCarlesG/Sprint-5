@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
+import images from 'vite-plugin-vue-images'
 
 export default defineConfig({
     plugins: [
@@ -26,5 +27,6 @@ export default defineConfig({
                 },
             },
         }),
+        images(),
     ],
 });
