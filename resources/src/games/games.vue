@@ -103,8 +103,10 @@ export default {
                 },
             })
                 .then((response) => {
-                    alert(response.data.result);
+                    console.log(response);
+                    confirm(response.data.data.throw1 + " and " + response.data.data.throw2 + ' = ' + response.data.result);
                     this.$router.push({ name: 'showGames' });
+                    window.location.reload();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -121,7 +123,10 @@ export default {
                 },
             })
                 .then((response) => {
-                    alert(response.data.message);
+                    if (confirm("Delete all games?")) {
+                        alert(response.data.message);
+                        window.location.reload();
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
