@@ -112,9 +112,9 @@ class UserController extends Controller
             User::newGame($user);
             $game = $user->games->last();
             if ($game->win == 2) {
-                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU LOSE!'], 201);
+                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'result' => 'YOU LOSE!'], 201);
             } else {
-                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU WIN!'], 201);
+                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'result' => 'YOU WIN!'], 201);
             }
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
@@ -152,7 +152,7 @@ class UserController extends Controller
     {
         if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
             $users = $this->createRanking();
-            return Response(['status' => 200, 'data' => $users], 200)->json($users);
+            return Response(['status' => 200, 'data' => $users], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }

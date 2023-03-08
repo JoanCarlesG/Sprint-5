@@ -7,7 +7,6 @@ const Login = () => import('../src/users/login.vue');
 const Register = () => import('../src/users/register.vue');
 
 const Games = () => import('../src/games/games.vue');
-const Create = () => import('../src/games/create.vue');
 
 const routes = [
     {
@@ -34,11 +33,6 @@ const routes = [
         path: '/games',
         name: 'showGames',
         component: Games
-    },
-    {
-        path: '/games/create',
-        name: 'newGame',
-        component: Create
     }
 ];
 
