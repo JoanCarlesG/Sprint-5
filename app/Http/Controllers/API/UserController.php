@@ -27,7 +27,11 @@ class UserController extends Controller
         $user = new User();
         $input = $request->all();
         if ($input) {
-            $user->name = $input['name'];
+            if (!$input['name']){
+                $user->name = "Anonymous";
+            } else{
+                $user->name = $input['name'];
+            };
             $user->email = $input['email'];
             $user->password = bcrypt($input['password']);
             $user->save();
