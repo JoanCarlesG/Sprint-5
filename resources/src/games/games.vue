@@ -104,10 +104,12 @@ export default {
             })
                 .then((response) => {
                     alert(response.data.result);
+                    this.$router.push({ name: 'showGames' });
                 })
                 .catch((error) => {
                     console.log(error);
                 })
+            
         },
         deleteHistory() {
             const user = JSON.parse(localStorage.getItem('user'));
