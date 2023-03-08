@@ -24,11 +24,12 @@ class UserController extends Controller
 
     public function registerUser(Request $request): Response
     {
+        $lastUserId = User::select('id')->orderBy('id', 'desc')->first()->id;
         $user = new User();
         $input = $request->all();
         if ($input) {
             if (!$input['name']){
-                $user->name = "Anonymous";
+                $user->name = "Anonymous".($lastUserId + 1);
             } else{
                 $user->name = $input['name'];
             };
