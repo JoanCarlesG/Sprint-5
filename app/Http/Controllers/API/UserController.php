@@ -50,7 +50,7 @@ class UserController extends Controller
         if (Auth::attempt($input)) {
             $user = Auth::user();
             $token = $user->createToken('example')->accessToken;
-            return Response(['status' => 200, 'token' => $token, 'message' => 'Login successful'], 200);
+            return Response(['status' => 200, 'token' => $token, 'user' => $user, 'message' => 'Login successful'], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Invalid credentials'], 401);
         }
@@ -94,7 +94,7 @@ class UserController extends Controller
 
         if (Auth::guard('api')->check() && Auth::guard('api')->id() == $id) {
             $userGames = $user->games;
-            return Response(['status' => 200, 'Total games' => count($userGames), 'games' => $userGames], 200)->json($userGames);
+            return Response(['status' => 200, 'Total games' => count($userGames), 'games' => $userGames], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }

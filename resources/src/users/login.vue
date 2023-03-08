@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-        <p class="text-danger" v-if="error">{{ error }}</p>
+
         <form @submit.prevent="login">
             <div>
                 <div class="max-w-7xl mx-auto p-6 lg:p-8 mt-20">
@@ -14,6 +14,9 @@
                     Welcome!
                 </h4>
             </div>
+            <!-- Show error if invalid login 
+            <p class="text-danger flex justify-center" v-if="error">{{ error }}</p>
+            -->
 
             <div class="relative mb-4" data-te-input-wrapper-init>
                 <input type="email"
@@ -62,19 +65,16 @@ export default {
     methods: {
         login() {
             axios.post('/api/login', this.user)
-                .then((response) => {
-                    console.log(response.data);
-                    this.$router.push({ name: 'showGames' });
-                    if (response.data.success) {
-                        localStorage.setItem('token', response.data.token);
-                        localStorage.setItem('user', JSON.stringify(response.data.user));
-                        this.$router.push({ name: 'showGames' })
-                            .catch((error) => {
-                                console.log(error.response.data.errors);
-                            });
-                    }
+                .then(response => {
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
+                    this.$router.push({ name: 'showGames' })
+                })
+                .catch(error => {
+                    this.error = error.response.data.message;
                 })
         }
     }
-};
+}
+
 </script>

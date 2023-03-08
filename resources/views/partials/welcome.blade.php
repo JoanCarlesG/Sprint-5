@@ -32,9 +32,8 @@
             <img class="object-cover w-full h-screen hidden md:block" src="/img/bg.jpg">
         </div>
 
-        <!-- Login Section -->
+        <!-- App Section -->
         <div class="w-full md:w-2/4 flex flex-col">
-            
             <div>
                 @yield('content')
             </div>

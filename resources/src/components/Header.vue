@@ -1,6 +1,6 @@
 <template>
-    <h1 class="p-4">Welcome Page from Vue</h1>
-    <div class="p-4">
+    <h1 class="pt-4 pl-6">DICE IT!</h1>
+    <div class="pl-6 pt-2 pb-2">
         <router-link to="/">Logout</router-link> |
         <router-link to="/games">Home</router-link> |
         <router-link to="/ranking">Ranking</router-link>
