@@ -31,7 +31,7 @@ class UserController extends Controller
                 $user->name = "Anonymous";
             } else{
                 $user->name = $input['name'];
-            }
+            };
             $user->email = $input['email'];
             $user->password = bcrypt($input['password']);
             $user->save();
