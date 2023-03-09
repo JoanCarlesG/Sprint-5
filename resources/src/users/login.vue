@@ -5,7 +5,9 @@
             <div>
                 <div class="max-w-7xl mx-auto p-6 lg:p-8 mt-20">
                     <div class="flex justify-center">
-                        <img class="rounded-md" src="/img/logo-text.png" width="150" alt="Logo">
+                        <div>
+                            <img class="rounded-md mt-2" src="/img/logo-text.png" width="150" alt="Logo">
+                        </div>
                     </div>
                 </div>
             </div>

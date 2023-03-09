@@ -6,16 +6,22 @@
             <form @submit.prevent="changeName">
                 <div class="card mt-4">
                     <div class="img">
-                        <img class="rounded-md" src="/img/user-icon.png" width="20" alt="Logo">
+                        <img class="rounded-lg mt-2 ml-2" src="/img/user-icon.png" width="80" alt="Icon">
                     </div>
                     <div class="info" data-te-input-wrapper-init>
-                        <input type="text" class="w-28" id="name" name="name" :placeholder="username"
-                        v-model="form.name">
+                        <input type="text" class="w-28" id="name" name="name" :placeholder="username" v-model="form.name">
                     </div>
                     <button type="submit">Change Name</button>
                 </div>
             </form>
         </div>
+        <div class="flex justify-center mt-4">
+                <router-link to="/games"
+                    class="inline-block rounded border-2 border-danger px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                    data-te-ripple-init data-te-ripple-color="light">
+                    Cancel
+                </router-link>
+            </div>
     </div>
 </template>
   
@@ -52,7 +58,7 @@ export default {
                     user.name = this.form.name;
                     localStorage.setItem('user', JSON.stringify(user));
                     console.log(user.name);
-                    if(alert(response.data.message)){
+                    if (alert(response.data.message)) {
                         resolveDirective(this.$router, 'push', '/games');
                     };
                 })

@@ -5,11 +5,10 @@
         <div class="flex justify-around mt-8">
             <div class="card mt-4">
                 <div class="img"> 
-                    <font-awesome-icon icon="fa-light fa-user-bounty-hunter" />
-                    <i class="fa-regular fa-user-ninja"></i>
+                    <img class="rounded-lg mt-2 ml-2" src="/img/user-icon.png" width="80" alt="Icon">
                 </div>
                 <div class="info">
-                    <span>{{ username }}</span>
+                    <div><span>{{ username }}</span></div>
                 </div>
                 <router-link to="/edit">Edit Name</router-link>
             </div>
@@ -18,6 +17,10 @@
                     <div
                         class="inline-block rounded border-2 border-danger px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10">
                         <button @click="rollDice">Roll Dice</button>
+                    </div>
+                    <div
+                        class=" ml-4 inline-block rounded border-2 border-danger px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10">
+                        <button @click="deleteHistory">Delete All Games</button>
                     </div>
                 </div>
                 <div class="col-12 flex justify-center">
@@ -49,13 +52,11 @@
                         </table>
                     </div>
                 </div>
-                <div class="mt-6 flex justify-center">
-                    <div
-                        class="inline-block rounded border-2 border-danger px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10">
-                        <button @click="deleteHistory">Delete All Games</button>
-                    </div>
-                </div>
             </div>
+        </div>
+
+        <div class="flex justify-center mt-8">
+            <img class="rounded-lg mt-2 ml-2" src="/img/dice.gif" width="100" alt="Icon">
         </div>
     </div>
 </template>
