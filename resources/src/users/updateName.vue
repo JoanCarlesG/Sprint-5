@@ -9,7 +9,7 @@
                         <img class="rounded-lg mt-2 ml-2" src="/img/user-icon.png" width="80" alt="Icon">
                     </div>
                     <div class="info" data-te-input-wrapper-init>
-                        <input type="text" class="w-28" id="name" name="name" :placeholder="username" v-model="form.name">
+                        <input type="text" class="w-28 text-align" id="name" name="name" :placeholder="username" v-model="form.name">
                     </div>
                     <button type="submit">Change Name</button>
                 </div>

@@ -16,7 +16,7 @@ class UserController extends Controller
             $users = User::all()->map(function ($user) {
                 return $user->toArrayWithWinRate();
             });
-            return response()->json($users);
+            return Response(['status' => 200, 'data' => $users], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
@@ -35,16 +35,15 @@ class UserController extends Controller
             };
             $user->email = $input['email'];
             $user->password = bcrypt($input['password']);
+            if ($user->id == 1) {
+                $user->assignRole('Admin');
+            } else {
+                $user->assignRole('Player');
+            }
             $user->save();
             return Response(['status' => 201, 'message' => 'Successfully registered', 'data' => $user], 201);
         } else {
             return Response(['status' => 400, 'message' => 'Failed to register'], 400);
-        }
-
-        if ($user->id == 1) {
-            $user->assignRole('Admin');
-        } else {
-            $user->assignRole('User');
         }
     }
 
