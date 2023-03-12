@@ -154,7 +154,7 @@ class UserController extends Controller
 
     public function getRanking(): Response
     {
-        if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
+        if (Auth::guard('api')->check() && Auth::guard('api')) {
             $users = $this->createRanking();
             return Response(['status' => 200, 'data' => $users], 200);
         } else {
@@ -164,7 +164,7 @@ class UserController extends Controller
 
     public function getWorstPlayer(): Response
     {
-        if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
+        if (Auth::guard('api')->check() && Auth::guard('api')) {
             $users = $this->createRanking();
             return Response(['status' => 200, 'data' => end($users)], 200);
         } else {
@@ -174,7 +174,7 @@ class UserController extends Controller
 
     public function getBestPlayer(): Response
     {
-        if (Auth::guard('api')->check() && Auth::guard('api')->user()->hasRole('Admin')) {
+        if (Auth::guard('api')->check() && Auth::guard('api')) {
             $users = $this->createRanking();
             return Response(['status' => 200, 'data' => $users[0]], 200);
         } else {
