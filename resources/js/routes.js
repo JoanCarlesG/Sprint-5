@@ -55,7 +55,7 @@ const router = createRouter({
 
 export default router;
 
-//*ADMIN* GET /players: retorna el llistat de tots els jugadors/es del sistema amb el seu percentatge mitjà d’èxits 
+//OK    *ADMIN* GET /players: retorna el llistat de tots els jugadors/es del sistema amb el seu percentatge mitjà d’èxits 
 //OK    POST /players : crea un jugador/a.
 //OK    PUT /players/{id} : modifica el nom del jugador/a.
 //OK   GET /players/{id}/games: retorna el llistat de jugades per un jugador/a.
