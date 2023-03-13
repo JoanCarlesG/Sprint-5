@@ -67,7 +67,13 @@ class UserController extends Controller
         if (Auth::attempt($input)) {
             $user = Auth::user();
             $token = $user->createToken('example')->accessToken;
-            return Response(['status' => 200, 'token' => $token, 'user' => $user, 'message' => 'Login successful'], 200);
+            $role = $user->roles->first()->name;
+            if ($role == "Admin"){
+                $roleNum = 1;
+            } else {
+                $roleNum = 0;
+            }
+            return Response(['status' => 200, 'token' => $token, 'user' => $user, 'role' => $role, 'roleNum' => $roleNum, 'message' => 'Login successful'], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Invalid credentials'], 401);
         }

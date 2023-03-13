@@ -64,12 +64,16 @@ export default {
             error: null,
         };
     },
+    created() {
+        console.log(localStorage);
+    },
     methods: {
         login() {
             axios.post('/api/login', this.user)
                 .then(response => {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('user', JSON.stringify(response.data.user));
+                    localStorage.setItem('roleNum', response.data.roleNum);
                     this.$router.push({ name: 'showGames' })
                 })
                 .catch(error => {

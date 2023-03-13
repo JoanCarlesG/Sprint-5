@@ -4,20 +4,32 @@
         <router-link @click="logout" to="/" >Logout</router-link> |
         <router-link to="/games">Home</router-link> |
         <router-link to="/ranking">Ranking</router-link> |
-        <router-link to="/admin">Admin</router-link>
+        <router-link v-if='role == 1' to="/admin">Admin</router-link>
     </div>
 </template>
 
 <script>
 export default {
     name: 'Header',
+    data() {
+        return {
+            role : localStorage.getItem('roleNum'),
+        }
+    },
+    created() {
+        let role = localStorage.getItem('roleNum').trim();
+        console.log(role);
+
+    },
     methods: {
         logout() {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
+            localStorage.removeItem('roleNum');
             this.$router.push('/');
         }
-    }
+    },
+    
 }
 
 </script>

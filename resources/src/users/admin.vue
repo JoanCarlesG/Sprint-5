@@ -3,7 +3,9 @@
         <Header />
         <router-view />
         <div class="flex justify-center mt-8">
-            <div>
+            <!-- Show error if invalid login -->
+            <p class="text-danger flex justify-center mb-2" v-if="error">{{ error }}</p>
+            <div v-if="!error">
                 <table class="border border-black-500">
                     <thead>
                         <tr>
@@ -47,6 +49,7 @@ export default {
     data() {
         return {
             users: [],
+            error: null,
         };
     },
     created() {
@@ -61,7 +64,7 @@ export default {
                 this.users = response.data.data;
             })
             .catch((error) => {
-                console.log(error);
+                this.error = error.response.data.message;
             })
     }
 }
