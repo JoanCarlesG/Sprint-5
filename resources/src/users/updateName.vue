@@ -57,10 +57,8 @@ export default {
                 .then(response => {
                     user.name = this.form.name;
                     localStorage.setItem('user', JSON.stringify(user));
-                    console.log(user.name);
-                    if (alert(response.data.message)) {
-                        resolveDirective(this.$router, 'push', '/games');
-                    };
+                    alert(response.data.message);
+                    this.$router.push({ name: 'showGames' });
                 })
                 .catch(error => {
                     console.log(error);

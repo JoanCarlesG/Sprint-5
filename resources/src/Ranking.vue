@@ -91,8 +91,8 @@ export default {
     data() {
         return {
             users: [],
-            winner: null,
-            loser: null,
+            winner: "",
+            loser: "",
         };
     },
     created() {

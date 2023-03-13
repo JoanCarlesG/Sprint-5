@@ -40,14 +40,6 @@
                                     <td v-if="game.win == 1">Won</td>
                                     <td v-else="game.win == 2">Lost</td>
                                 </tr>
-                                <tr v-for="item in rowData">
-                                    <th scope="row">{{ item.mail }}</th>
-                                    <td>{{ item.date }}</td>
-                                    <td>{{ item.adress }}</td>
-                                    <td>{{ item.company }}</td>
-                                    <td>{{ item.fliers }}</td>
-                                </tr>
-
                             </tbody>
                         </table>
                     </div>
