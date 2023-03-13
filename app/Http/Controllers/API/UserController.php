@@ -24,6 +24,7 @@ class UserController extends Controller
 
     public function registerUser(Request $request): Response
     {
+        $lastUserId = User::select('id')->orderBy('id', 'desc')->first()->id;
         $user = new User();
         $input = $request->all();
         if ($input) {
