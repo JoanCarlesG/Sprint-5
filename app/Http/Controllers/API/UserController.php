@@ -24,26 +24,39 @@ class UserController extends Controller
 
     public function registerUser(Request $request): Response
     {
-        $lastUserId = User::select('id')->orderBy('id', 'desc')->first()->id;
         $user = new User();
         $input = $request->all();
         if ($input) {
-            if (!$input['name']){
-                $user->name = "Anonymous".($lastUserId + 1);
-            } else{
-                $user->name = $input['name'];
-            };
-            $user->email = $input['email'];
+            $user->name = $this->anonymousName($input, $user);
             $user->password = bcrypt($input['password']);
-            if ($user->id == 1) {
-                $user->assignRole('Admin');
+            $this->rolePerID($user);
+            if ($input['email'] != User::find(1)->email) {
+                $user->email = $input['email'];
+                $user->save();
+                return Response(['status' => 201, 'message' => 'User Successfully created', 'data' => $user], 201);
             } else {
-                $user->assignRole('Player');
+                return Response(['status' => 500, 'message' => 'Already registered'], 500);
             }
-            $user->save();
-            return Response(['status' => 201, 'message' => 'Successfully registered', 'data' => $user], 201);
         } else {
             return Response(['status' => 400, 'message' => 'Failed to register'], 400);
+        }
+    }
+    
+    public function anonymousName($input, $user){
+        $lastUserId = User::select('id')->orderBy('id', 'desc')->first()->id;
+        if (!$input['name']){
+            $user->name = "Anonymous".($lastUserId + 1);
+        } else{
+            $user->name = $input['name'];
+        };
+        return $user->name;
+    }
+
+    public function rolePerID($user){
+        if ($user->id == 1) {
+            $user->assignRole('Admin');
+        } else {
+            $user->assignRole('Player');
         }
     }
 

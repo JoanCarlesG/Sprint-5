@@ -14,6 +14,9 @@
                     Create a new account!
                 </h4>
             </div>
+            <!-- Show error if invalid register -->
+            <p class="text-danger flex justify-center mb-2" v-if="error">{{ error }}</p>
+
             <div class="relative mb-4" data-te-input-wrapper-init>
                 <input type="name"
                     class="form-control peer block min-h-[auto] w-full rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-500 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-100"
@@ -60,6 +63,7 @@ export default {
                 password: null,
                 c_password: null,
             },
+            error: null,
         };
     },
     methods: {
@@ -73,6 +77,8 @@ export default {
                 .catch(error => {
                     this.error = error.response.data.message;
                 })
+            } else {
+                this.error = 'Passwords do not match';
             }
         }
     }
