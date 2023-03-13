@@ -3,19 +3,26 @@
         <Header />
         <router-view />
         <!--Best and worst player-->
-        
+
         <div class="flex justify-around mt-4">
             <div>
-                <h1 class="flex justify-center text-2xl">Best player</h1>
-                <table class="border border-black-500">
+                <table class="table rounded border">
                     <thead>
-                        <tr>
-                            <th>Username</th>
+                        <tr class="tableheader text-center">
+                            <th>
+                                <div class="flex justify-around tableheader">
+                                    <img class="rounded-md mr-1 pl-0.5 pr-0.5" src="/img/crown-solid.svg" width="20"
+                                        alt="Icon">
+                                    Best player
+                                    <img class="rounded-md ml-1 pl-0.5 pr-0.5" src="/img/crown-solid.svg" width="20"
+                                        alt="Icon">
+                                </div>
+                            </th>
                             <th>Win rate</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr class="text-center">
                             <td>{{ winner.name }}</td>
                             <td>{{ winner.win_rate }} %</td>
                         </tr>
@@ -24,16 +31,23 @@
             </div>
 
             <div>
-                <h1 class="flex justify-center text-2xl">Worst player</h1>
-                <table class="border border-black-500">
+                <table class="table rounded border">
                     <thead>
-                        <tr>
-                            <th>Username</th>
+                        <tr class="tableheader text-center">
+                            <th>
+                                <div class="flex justify-around tableheader">
+                                    <img class="rounded-md mr-1 pl-0.5 pr-0.5" src="/img/flag-solid.svg" width="20"
+                                        alt="Icon">
+                                    Worst player
+                                    <img class="rounded-md ml-1 pl-0.5 pr-0.5" src="/img/flag-solid.svg" width="20"
+                                        alt="Icon">
+                                </div>
+                            </th>
                             <th>Win rate</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr class="text-center">
                             <td>{{ loser.name }}</td>
                             <td>{{ loser.win_rate }} %</td>
                         </tr>
@@ -42,20 +56,20 @@
             </div>
         </div>
         <!--Full Ranking-->
-        
+
         <div class="flex justify-center mt-8">
             <div>
                 <h1 class="flex justify-center text-2xl">Full Ranking</h1>
-                <table class="border border-black-500">
+                <table class="table rounded border">
                     <thead>
-                        <tr>
+                        <tr class="tableheader text-center">
                             <th>Ranking</th>
                             <th>Username</th>
                             <th>Win rate</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(user,index) in users" :key="user.id">
+                        <tr class="text-center" v-for="(user, index) in users" :key="user.id">
                             <td>{{ index + 1 }}</td>
                             <td>{{ user.name }}</td>
                             <td>{{ user.win_rate }} %</td>
@@ -74,7 +88,6 @@
             </router-link>
         </div>
     </div>
-    
 </template>
 
   

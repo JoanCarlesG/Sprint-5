@@ -3,15 +3,22 @@
         <Header />
         <router-view />
         <div class="flex justify-around mt-8">
-            <div class="card mt-4">
-                <div class="img"> 
-                    <img class="rounded-lg mt-2 ml-2" src="/img/user-icon.png" width="80" alt="Icon">
+            <div>
+                <div class="card mt-4">
+                    <div class="img">
+                        <img class="rounded-lg mt-2 ml-2" src="/img/user-icon.png" width="80" alt="Icon">
+                    </div>
+                    <div class="info">
+                        <div><span>{{ username }}</span></div>
+                    </div>
+                    <router-link to="/edit">Edit Name</router-link>
+
                 </div>
-                <div class="info">
-                    <div><span>{{ username }}</span></div>
+                <div class="flex justify-center mt-8">
+                    <img class="rounded-lg mt-2 ml-2" src="/img/dice.gif" width="100" alt="Icon">
                 </div>
-                <router-link to="/edit">Edit Name</router-link>
             </div>
+
             <div>
                 <div class="flex justify-around mt-4 mb-4">
                     <div class="button mr-2">
@@ -23,16 +30,16 @@
                 </div>
                 <div class="col-12 flex justify-center">
                     <div class="table-responsive">
-                        <table>
+                        <table class="table rounded border">
                             <thead>
-                                <tr>
-                                    <th>Dice 1 |</th>
-                                    <th>Dice 2 |</th>
+                                <tr class="tableheader text-center">
+                                    <th>Dice 1</th>
+                                    <th>Dice 2</th>
                                     <th>Result</th>
                                 </tr>
                             </thead>
-                            <tbody class="">
-                                <tr v-for="game in games" :key="game.id">
+                            <tbody>
+                                <tr class="text-center" v-for="game in games" :key="game.id">
                                     <td>{{ game.throw1 }}</td>
                                     <td>{{ game.throw2 }}</td>
                                     <td v-if="game.win == 1">Won</td>
@@ -45,9 +52,7 @@
             </div>
         </div>
 
-        <div class="flex justify-center mt-8">
-            <img class="rounded-lg mt-2 ml-2" src="/img/dice.gif" width="100" alt="Icon">
-        </div>
+
     </div>
 </template>
   
