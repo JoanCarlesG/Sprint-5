@@ -111,7 +111,7 @@ export default {
             })
                 .then((response) => {
                     console.log(response);
-                    confirm(response.data.data.throw1 + " and " + response.data.data.throw2 + ' = ' + response.data.result);
+                    alert(response.data.data.throw1 + " and " + response.data.data.throw2 + ' = ' + response.data.result);
                     window.location.reload();
                 })
                 .catch((error) => {
