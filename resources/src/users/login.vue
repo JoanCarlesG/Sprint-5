@@ -31,18 +31,16 @@
             </div>
             <div class="mb-12 pt-1 pb-1 text-center">
                 <button
-                    class="mb-3 inline-block w-full rounded px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
-                    type="submit" data-te-ripple-init data-te-ripple-color="light"
-                    style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
+                    class="mb-3 inline-block w-full rounded px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal button shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
+                    type="submit">
                     Log in
                 </button>
                 <a href="#!">Forgot password?</a>
             </div>
-            <div class="flex items-center justify-between pb-6">
-                <p class="mb-0 mr-2">Don't have an account?</p>
+            <div class="flex justify-center rounded px-6 pt-2.5 pb-2 text-xs font-medium uppercase">
+                <p class="mt-3 mr-2">Don't have an account?</p>
                 <router-link to="/register"
-                    class="inline-block rounded border-2 border-danger px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                    data-te-ripple-init data-te-ripple-color="light">
+                    class="button">
                     Register
                 </router-link>
             </div>

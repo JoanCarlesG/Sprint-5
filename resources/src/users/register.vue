@@ -38,13 +38,17 @@
                     class="form-control peer block min-h-[auto] w-full rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-500 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-100"
                     id="c-password" placeholder="Confirm Password" v-model="user.c_password" />
             </div>
-            <div class="mb-12 pt-1 pb-1 text-center">
+            <div class="pt-1 pb-1 text-center">
                 <button
-                    class="mb-3 inline-block w-full rounded px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
-                    type="submit" data-te-ripple-init data-te-ripple-color="light"
-                    style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
+                    class="mb-3 inline-block w-full rounded px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal button shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
+                    type="submit">
                     Register
                 </button>
+            </div>
+            <div class="flex justify-center rounded px-6 pt-2.5 pb-2 text-xs font-medium uppercase">
+                <router-link to="/" class="button">
+                    Back
+                </router-link>
             </div>
         </form>
     </div>
@@ -70,13 +74,13 @@ export default {
         register() {
             if (this.user.password === this.user.c_password) {
                 axios.post('/api/players', this.user)
-                .then(response => {
-                    alert(response.data.message);
-                    this.$router.push({ name: 'login' })
-                })
-                .catch(error => {
-                    this.error = error.response.data.message;
-                })
+                    .then(response => {
+                        alert(response.data.message);
+                        this.$router.push({ name: 'login' })
+                    })
+                    .catch(error => {
+                        this.error = error.response.data.message;
+                    })
             } else {
                 this.error = 'Passwords do not match';
             }

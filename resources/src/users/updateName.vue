@@ -8,17 +8,15 @@
                     <div class="img">
                         <img class="rounded-lg mt-2 ml-2" src="/img/user-icon.png" width="80" alt="Icon">
                     </div>
-                    <div class="info" data-te-input-wrapper-init>
+                    <div class="info">
                         <input type="text" class="w-28 text-align" id="name" name="name" :placeholder="username" v-model="form.name">
                     </div>
-                    <button type="submit">Change Name</button>
+                    <button class="button" type="submit">Change Name</button>
                 </div>
             </form>
         </div>
         <div class="flex justify-center mt-4">
-                <router-link to="/games"
-                    class="inline-block rounded border-2 border-danger px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                    data-te-ripple-init data-te-ripple-color="light">
+                <router-link to="/games" class="button">
                     Cancel
                 </router-link>
             </div>
