@@ -17,4 +17,7 @@
 </div>
 @endif
 
+<div id="app">
+
+</div>
 @endsection

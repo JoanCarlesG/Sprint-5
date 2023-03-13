@@ -16,7 +16,7 @@ class UserController extends Controller
             $users = User::all()->map(function ($user) {
                 return $user->toArrayWithWinRate();
             });
-            return response()->json($users);
+            return Response(['status' => 200, 'data' => $users], 200);
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
@@ -28,23 +28,36 @@ class UserController extends Controller
         $user = new User();
         $input = $request->all();
         if ($input) {
-            if (!$input['name']){
-                $user->name = "Anonymous".($lastUserId + 1);
-            } else{
-                $user->name = $input['name'];
-            };
-            $user->email = $input['email'];
+            $user->name = $this->anonymousName($input, $user);
             $user->password = bcrypt($input['password']);
-            $user->save();
-            return Response(['status' => 201, 'message' => 'Successfully registered', 'data' => $user], 201);
+            $this->rolePerID($user);
+            if ($input['email'] != User::find(1)->email) {
+                $user->email = $input['email'];
+                $user->save();
+                return Response(['status' => 201, 'message' => 'User Successfully created', 'data' => $user], 201);
+            } else {
+                return Response(['status' => 500, 'message' => 'Already registered'], 500);
+            }
         } else {
             return Response(['status' => 400, 'message' => 'Failed to register'], 400);
         }
+    }
+    
+    public function anonymousName($input, $user){
+        $lastUserId = User::select('id')->orderBy('id', 'desc')->first()->id;
+        if (!$input['name']){
+            $user->name = "Anonymous".($lastUserId + 1);
+        } else{
+            $user->name = $input['name'];
+        };
+        return $user->name;
+    }
 
+    public function rolePerID($user){
         if ($user->id == 1) {
             $user->assignRole('Admin');
         } else {
-            $user->assignRole('User');
+            $user->assignRole('Player');
         }
     }
 
@@ -52,12 +65,19 @@ class UserController extends Controller
     {
         $input = $request->all();
 
-        Auth::attempt($input);
-
-        $user = Auth::user();
-
-        $token = $user->createToken('example ')->accessToken;
-        return Response(['status' => 200, 'token' => $token, 'message' => 'Login successfull'], 200);
+        if (Auth::attempt($input)) {
+            $user = Auth::user();
+            $token = $user->createToken('example')->accessToken;
+            $role = $user->roles->first()->name;
+            if ($role == "Admin"){
+                $roleNum = 1;
+            } else {
+                $roleNum = 0;
+            }
+            return Response(['status' => 200, 'token' => $token, 'user' => $user, 'role' => $role, 'roleNum' => $roleNum, 'message' => 'Login successful'], 200);
+        } else {
+            return Response(['status' => 401, 'message' => 'Invalid credentials'], 401);
+        }
     }
 
     public function userLogout(): Response
@@ -116,9 +136,9 @@ class UserController extends Controller
             User::newGame($user);
             $game = $user->games->last();
             if ($game->win == 2) {
-                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU LOSE!'], 201);
+                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'result' => 'YOU LOSE!'], 201);
             } else {
-                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'YOU WIN!'], 201);
+                return Response(['status' => 201, 'message' => 'Game Successfully created', 'data' => $game, 'result' => 'YOU WIN!'], 201);
             }
         } else {
             return Response(['status' => 401, 'message' => 'Unauthorized'], 401);

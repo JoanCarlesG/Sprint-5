@@ -1,0 +1,91 @@
+/*USER CARD*/
+.card {
+    width: 190px;
+    height: 254px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f2f2f3;
+    border-radius: 12px;
+    box-shadow: inset 5px 5px 10px #a9a9aa77,
+        inset -5px -5px 10px #ffffff7e;
+}
+
+.card .img {
+    height: 100px;
+    margin-top: 1.6em;
+    aspect-ratio: 1;
+    border-radius: 30%;
+    background: white;
+    margin-bottom: 0.4em;
+    box-shadow: -5px -5px 8px #ffffff7a,
+        5px 5px 8px #a9a9aa7a;
+}
+
+.card .info {
+    text-align: center;
+    margin-top: 0.4em;
+    background: #550A21;
+    background-clip: border-box;
+}
+
+.card .info>span {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.card a {
+    margin-top: 1em;
+    color: #fff;
+    text-decoration: none;
+    background: #550A21;
+    padding: .5em 1em;
+    border-radius: 0.7em;
+}
+.card button {
+    margin-top: 1em;
+    color: #fff;
+    text-decoration: none;
+    background: #550A21;
+    padding: .5em 1em;
+    border-radius: 0.7em;
+}
+.card a:hover {
+    background: #9f133d;
+    color: #fff;
+    text-decoration: none;
+    padding: .5em 1em;
+    border-radius: 0.7em;
+}
+
+.card a:active {
+    box-shadow: inset 3px 3px 3px #0056ff,
+        inset -3px -3px 3px #00c2ff;
+}
+
+.button {
+    margin-top: 1em;
+    color: #fff;
+    text-decoration: none;
+    background: #550A21;
+    padding: .5em 1em;
+    border-radius: 0.7em;
+}
+.button:hover {
+    background: #9f133d;
+    color: #fff;
+}
+
+.table {
+    margin-top: 1em;
+    color: black;
+    text-decoration: none;
+    padding: .5em 1em;
+    border: 1px solid #000;
+    border-radius: 0.5rem;
+}
+
+.tableheader {
+    background-color: #550A21;
+    color: #fff;
+}

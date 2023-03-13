@@ -33,16 +33,16 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Game::create([
             'player_id' => 1,
-            'throw1' => rand(1, 6),
-            'throw2' => rand(1, 6),
-            'win' => rand(1,2),
+            'throw1' => 2,
+            'throw2' => 5,
+            'win' => 1,
         ]);
 
         \App\Models\Game::create([
             'player_id' => 2,
-            'throw1' => rand(1, 6),
-            'throw2' => rand(1, 6),
-            'win' => rand(1,2),
+            'throw1' => 1,
+            'throw2' => 5,
+            'win' => 2,
         ]);
 
         
