@@ -29,10 +29,10 @@ URL’s:
 
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/{all}', function () {
-    return view('welcome');
-})->where("all", ".*");
+// Route::get('/{all}', function () {
+//     return view('welcome');
+// })->where("all", ".*");
